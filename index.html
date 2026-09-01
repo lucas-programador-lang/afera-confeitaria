@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Afera Confeitaria — Bolos e Kits Festa em Porto Velho</title>
-<meta name="description" content="Bolos, kits festa e salgados sob encomenda em Porto Velho. Peça pelo WhatsApp.">
+<title>Afera Confeitaria — Bolos e Kits Festa em Fortaleza</title>
+<meta name="description" content="Bolos, kits festa e salgados sob encomenda em Fortaleza-CE. Peça pelo WhatsApp.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,15 +21,26 @@
       <span class="brand-sub">Confeitaria</span>
     </a>
     <nav class="nav-links">
-      <a href="#cardapio">Cardápio</a>
+      <a href="#cardapio">Kits festa</a>
       <a href="#bolos">Bolos avulsos</a>
+      <a href="#extras">Salgados e doces</a>
       <a href="#contato">Contato</a>
     </nav>
     <a class="btn-whats-mini" href="https://wa.me/5585986304780" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67a8.2 8.2 0 0 1 5.83 2.41 8.2 8.2 0 0 1 2.42 5.83c0 4.55-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.14.82.84-3.06-.2-.32a8.18 8.18 0 0 1-1.26-4.36c0-4.55 3.7-8.23 8.25-8.23m-4.55 4.72c-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.02s.87 2.34.99 2.5c.12.16 1.7 2.73 4.2 3.72 2.07.83 2.49.66 2.94.62.45-.04 1.46-.6 1.66-1.17.2-.58.2-1.08.14-1.18-.06-.1-.22-.16-.46-.28-.24-.12-1.46-.72-1.68-.8-.23-.09-.39-.13-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.53.06-.24-.12-1.03-.38-1.96-1.21-.72-.65-1.21-1.44-1.35-1.68-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.44.12-.15.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.56-1.36-.78-1.86-.2-.48-.4-.42-.56-.43z"/></svg>
       Pedir
     </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+  <nav class="nav-mobile" id="nav-mobile">
+    <a href="#cardapio">Kits festa</a>
+    <a href="#bolos">Bolos avulsos</a>
+    <a href="#extras">Salgados e doces</a>
+    <a href="#contato">Contato</a>
+    <a href="https://wa.me/5585986304780" target="_blank" rel="noopener" class="nav-mobile-cta">Pedir no WhatsApp</a>
+  </nav>
 </header>
 
 <main id="topo">
@@ -37,7 +48,7 @@
   <section class="hero">
     <canvas id="hero-canvas"></canvas>
     <div class="hero-content">
-      <p class="hero-eyebrow">Porto Velho · Henrique Jorge</p>
+      <p class="hero-eyebrow">Fortaleza · Dom Lustosa</p>
       <h1 class="hero-title">Doçura de fazer<br>festa parar.</h1>
       <p class="hero-desc">Bolos, kits festa e salgados feitos na hora, sob encomenda. Do bolo de 10 fatias ao kit completo de 30 — a Afera monta a mesa da sua celebração.</p>
       <div class="hero-actions">
@@ -63,8 +74,11 @@
 
   <section id="cardapio" class="menu-section">
     <div class="section-head">
-      <h2>Kits Festa</h2>
-      <p>Bolo + salgados + doces, no combo que cabe na sua ocasião.</p>
+      <div class="section-head-text">
+        <h2>Kits Festa</h2>
+        <p>Bolo + salgados + doces, no combo que cabe na sua ocasião.</p>
+      </div>
+      <span class="section-head-rule"></span>
     </div>
 
     <div class="menu-grid" id="kits-grid"></div>
@@ -72,17 +86,23 @@
 
   <section id="bolos" class="menu-section menu-section--alt">
     <div class="section-head">
-      <h2>Bolos avulsos</h2>
-      <p>Sem recheio de kit, só o bolo — do tamanho que você precisar.</p>
+      <div class="section-head-text">
+        <h2>Bolos avulsos</h2>
+        <p>Sem recheio de kit, só o bolo — do tamanho que você precisar.</p>
+      </div>
+      <span class="section-head-rule"></span>
     </div>
 
     <div class="table-card" id="bolos-table"></div>
   </section>
 
-  <section class="menu-section">
+  <section id="extras" class="menu-section">
     <div class="section-head">
-      <h2>Salgados, doces e porções</h2>
-      <p>Pra completar a mesa ou fechar um pedido menor.</p>
+      <div class="section-head-text">
+        <h2>Salgados, doces e porções</h2>
+        <p>Pra completar a mesa ou fechar um pedido menor.</p>
+      </div>
+      <span class="section-head-rule"></span>
     </div>
 
     <div class="menu-grid menu-grid--compact" id="extras-grid"></div>
@@ -90,8 +110,11 @@
 
   <section class="menu-section menu-section--alt">
     <div class="section-head">
-      <h2>Empadão e congelados</h2>
-      <p>Prontos pra assar ou fritar quando quiser.</p>
+      <div class="section-head-text">
+        <h2>Empadão e congelados</h2>
+        <p>Prontos pra assar ou fritar quando quiser.</p>
+      </div>
+      <span class="section-head-rule"></span>
     </div>
 
     <div class="menu-grid menu-grid--compact" id="frozen-grid"></div>
@@ -128,7 +151,7 @@
             </span>
             <div>
               <span class="contact-label">Endereço</span>
-              <span>Rua Audízio Pinheiro, 100 — Henrique Jorge</span>
+              <span>Av. Audízio Pinheiro, 100 — Dom Lustosa, Fortaleza-CE, 60526-025</span>
             </div>
           </li>
           <li>
@@ -155,7 +178,7 @@
       <div class="contact-map">
         <iframe
           title="Localização Afera Confeitaria"
-          src="https://www.google.com/maps?q=Rua+Audízio+Pinheiro,+100,+Henrique+Jorge,+Porto+Velho,+RO&output=embed"
+          src="https://www.google.com/maps?q=Av.+Audízio+Pinheiro,+100,+Dom+Lustosa,+Fortaleza,+CE,+60526-025&output=embed"
           width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
         </iframe>
       </div>
@@ -170,7 +193,7 @@
       <span class="brand-mark">Afera</span>
       <span class="brand-sub">Confeitaria</span>
     </div>
-    <p>Rua Audízio Pinheiro, 100 — Henrique Jorge, Porto Velho/RO</p>
+    <p>Av. Audízio Pinheiro, 100 — Dom Lustosa, Fortaleza-CE, 60526-025</p>
     <p class="footer-copy">© <span id="year"></span> Afera Confeitaria. Feito com açúcar e carinho.</p>
   </div>
 </footer>
