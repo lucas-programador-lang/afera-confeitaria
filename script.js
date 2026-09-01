@@ -14,16 +14,19 @@ function waLink(itemName, price){
 const kits = [
   {
     name: "Bolo + Salgados",
+    serves: "até 15 pessoas",
     desc: "Bolo de 10 fatias com 50 salgados variados. Ideal para festas menores.",
     price: "R$ 95,00"
   },
   {
     name: "Kit Mini Bolo",
+    serves: "até 20 pessoas",
     desc: "Bolo de 10 fatias com 100 salgados variados.",
     price: "R$ 120,00"
   },
   {
     name: "Mini Kit Completo",
+    serves: "até 20 pessoas",
     desc: "Bolo de 12 fatias com topo impresso incluso, 50 salgados, 30 doces, 4 cupcakes e refrigerante de 1 litro.",
     price: "R$ 145,00",
     featured: true,
@@ -31,21 +34,25 @@ const kits = [
   },
   {
     name: "Kit 1",
+    serves: "sob consulta",
     desc: "Kit festa tamanho intermediário — consulte a composição completa pelo WhatsApp.",
     price: "R$ 163,00"
   },
   {
     name: "Kit 2",
+    serves: "até 35 pessoas",
     desc: "Bolo de 20 fatias com 200 salgados variados.",
     price: "R$ 195,00"
   },
   {
     name: "Kit 1 Completo",
+    serves: "até 35 pessoas",
     desc: "Bolo de 20 fatias com topo impresso incluso, 100 salgados, 50 doces e refrigerante de 2 litros.",
     price: "R$ 197,00"
   },
   {
     name: "Kit 3",
+    serves: "até 50 pessoas",
     desc: "Bolo de 30 fatias com topo impresso incluso e 200 salgados variados.",
     price: "R$ 225,00",
     featured: true,
@@ -81,12 +88,16 @@ function renderKits(){
   grid.innerHTML = kits.map(k => `
     <article class="kit-card ${k.featured ? "is-featured" : ""}">
       ${k.badge ? `<span class="kit-badge">${k.badge}</span>` : ""}
-      <h3 class="kit-name">${k.name}</h3>
+      <div class="kit-head">
+        <h3 class="kit-name">${k.name}</h3>
+        ${k.serves ? `<span class="kit-serves">${k.serves}</span>` : ""}
+      </div>
       <p class="kit-desc">${k.desc}</p>
       <div class="kit-footer">
         <div class="kit-price"><small>Preço</small>${k.price}</div>
         <a class="kit-order-btn" href="${waLink(k.name, k.price)}" target="_blank" rel="noopener" aria-label="Pedir ${k.name} no WhatsApp">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <span>Pedir</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
     </article>
@@ -97,8 +108,18 @@ function renderBolos(){
   const table = document.getElementById("bolos-table");
   table.innerHTML = bolosAvulsos.map(b => `
     <a class="bolo-row" href="${waLink(b.name, b.price)}" target="_blank" rel="noopener">
-      <span class="bolo-name">${b.name}</span>
-      <span class="bolo-price">${b.price}</span>
+      <div class="bolo-name-wrap">
+        <span class="bolo-icon">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z"/><path d="M3 10a4 4 0 0 1 4-4c1.2 0 1.8.7 2.5.7S10.8 6 12 6s1.8.7 2.5.7S15.8 6 17 6a4 4 0 0 1 4 4"/><path d="M12 6V3"/></svg>
+        </span>
+        <span class="bolo-name">${b.name}</span>
+      </div>
+      <div class="bolo-right">
+        <span class="bolo-price">${b.price}</span>
+        <span class="bolo-arrow">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </div>
     </a>
   `).join("");
 }
@@ -135,6 +156,30 @@ renderExtras();
 renderFrozen();
 
 document.getElementById("year").textContent = new Date().getFullYear();
+
+// ---------- menu mobile ----------
+
+(function mobileNav(){
+  const toggle = document.getElementById("nav-toggle");
+  const menu = document.getElementById("nav-mobile");
+  if (!toggle || !menu) return;
+
+  function closeMenu(){
+    menu.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+  }
+
+  toggle.addEventListener("click", () => {
+    const isOpen = menu.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 860) closeMenu();
+  });
+})();
 
 // ---------- hero canvas: partículas de "açúcar" flutuando ----------
 
