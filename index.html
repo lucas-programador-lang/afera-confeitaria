@@ -47,41 +47,52 @@
 
   <section class="hero">
     <canvas id="hero-canvas"></canvas>
-    <div class="hero-content">
-      <p class="hero-eyebrow">Fortaleza · Dom Lustosa</p>
-      <h1 class="hero-title">Doçura de fazer<br>festa parar.</h1>
-      <p class="hero-desc">Bolos, kits festa e salgados feitos na hora, sob encomenda. Do bolo de 10 fatias ao kit completo de 30 — a Afera monta a mesa da sua celebração.</p>
-      <div class="hero-actions">
-        <a href="#cardapio" class="btn-primary">Ver cardápio</a>
-        <a href="https://wa.me/5585986304780" target="_blank" rel="noopener" class="btn-ghost">Chamar no WhatsApp</a>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <h1 class="hero-title">Doçura de<br>fazer festa<br>parar.</h1>
+        <p class="hero-desc">Bolos, kits festa e salgados feitos na hora, sob encomenda. Do bolo de 10 fatias ao kit completo de 30 — a Afera monta a mesa da sua celebração.</p>
+        <div class="hero-actions">
+          <a href="#cardapio" class="btn-primary">Ver cardápio</a>
+          <a href="https://wa.me/5585986304780" target="_blank" rel="noopener" class="btn-ghost">Chamar no WhatsApp</a>
+        </div>
+        <p class="hero-note">Atendemos todos os dias, das 8h às 18h, na Av. Audízio Pinheiro — Dom Lustosa, Fortaleza.</p>
       </div>
-      <div class="hero-meta">
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">Funcionamento</span>
-          <span class="hero-meta-value">Seg a Dom · 8h às 18h</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">Instagram</span>
-          <span class="hero-meta-value">@afera_confeitaria</span>
-        </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 360 420" class="cake-art">
+          <ellipse cx="180" cy="404" rx="150" ry="11" class="cake-plate"/>
+          <path class="cake-tier" d="M30,300 q15,-16 30,0 q15,16 30,0 q15,-16 30,0 q15,16 30,0 q15,-16 30,0 q15,16 30,0 q15,-16 30,0 q15,16 30,0 q15,-16 30,0 q15,16 30,0 L330,400 L30,400 Z"/>
+          <path class="cake-ribbon" d="M30,368 L330,368"/>
+          <path class="cake-tier" d="M80,190 q12.5,-14 25,0 q12.5,14 25,0 q12.5,-14 25,0 q12.5,14 25,0 q12.5,-14 25,0 q12.5,14 25,0 q12.5,-14 25,0 q12.5,14 25,0 L280,300 L80,300 Z"/>
+          <path class="cake-ribbon" d="M80,258 L280,258"/>
+          <path class="cake-tier" d="M120,90 q10,-12 20,0 q10,12 20,0 q10,-12 20,0 q10,12 20,0 q10,-12 20,0 q10,12 20,0 L240,190 L120,190 Z"/>
+          <g class="cake-sprinkles">
+            <circle cx="60" cy="340" r="2.6"/><circle cx="105" cy="352" r="2.2"/><circle cx="150" cy="336" r="2.4"/>
+            <circle cx="215" cy="350" r="2.2"/><circle cx="265" cy="338" r="2.6"/><circle cx="300" cy="352" r="2.2"/>
+            <circle cx="105" cy="225" r="2.2"/><circle cx="150" cy="238" r="2"/><circle cx="215" cy="230" r="2.2"/>
+            <circle cx="255" cy="222" r="2"/>
+          </g>
+          <path class="cake-candle" d="M148,90 L148,64"/>
+          <path class="cake-candle" d="M180,90 L180,56"/>
+          <path class="cake-candle" d="M212,90 L212,64"/>
+          <ellipse class="cake-flame" cx="148" cy="59" rx="3" ry="6"/>
+          <ellipse class="cake-flame" cx="180" cy="51" rx="3.2" ry="6.5"/>
+          <ellipse class="cake-flame" cx="212" cy="59" rx="3" ry="6"/>
+        </svg>
       </div>
     </div>
-  </section>
-
-  <section class="section-intro">
-    <p>Cada kit é montado à mão, na quantidade certa pra sua festa não faltar nem sobrar. Escolha o tamanho pelo número de convidados e chame no WhatsApp pra fechar o pedido.</p>
   </section>
 
   <section id="cardapio" class="menu-section">
     <div class="section-head">
       <div class="section-head-text">
         <h2>Kits Festa</h2>
-        <p>Bolo + salgados + doces, no combo que cabe na sua ocasião.</p>
+        <p>Bolo, salgados e doces no combo que cabe na sua ocasião.</p>
       </div>
       <span class="section-head-rule"></span>
     </div>
 
-    <div class="menu-grid" id="kits-grid"></div>
+    <div class="menu-panel" id="kits-grid"></div>
   </section>
 
   <section id="bolos" class="menu-section menu-section--alt">
@@ -93,7 +104,7 @@
       <span class="section-head-rule"></span>
     </div>
 
-    <div class="table-card" id="bolos-table"></div>
+    <div class="menu-panel" id="bolos-table"></div>
   </section>
 
   <section id="extras" class="menu-section">
@@ -117,7 +128,7 @@
       <span class="section-head-rule"></span>
     </div>
 
-    <div class="menu-grid menu-grid--compact" id="frozen-grid"></div>
+    <div class="menu-panel" id="frozen-grid"></div>
   </section>
 
   <section id="contato" class="contact-section">
@@ -128,45 +139,35 @@
 
         <ul class="contact-list">
           <li>
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.98.36 1.94.68 2.86a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.22-1.25a2 2 0 0 1 2.11-.45c.92.32 1.88.55 2.86.68A2 2 0 0 1 22 16.92z"/></svg>
-            </span>
+            <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.98.36 1.94.68 2.86a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.22-1.25a2 2 0 0 1 2.11-.45c.92.32 1.88.55 2.86.68A2 2 0 0 1 22 16.92z"/></svg>
             <div>
               <span class="contact-label">WhatsApp</span>
               <a href="https://wa.me/5585986304780" target="_blank" rel="noopener">(85) 98630-4780</a>
             </div>
           </li>
           <li>
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
-            </span>
+            <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
             <div>
               <span class="contact-label">E-mail</span>
               <a href="mailto:afera007@gmail.com">afera007@gmail.com</a>
             </div>
           </li>
           <li>
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </span>
+            <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <div>
               <span class="contact-label">Endereço</span>
               <span>Av. Audízio Pinheiro, 100 — Dom Lustosa, Fortaleza-CE, 60526-025</span>
             </div>
           </li>
           <li>
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            </span>
+            <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             <div>
               <span class="contact-label">Funcionamento</span>
               <span>Segunda a domingo, 8h às 18h</span>
             </div>
           </li>
           <li>
-            <span class="contact-icon">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-            </span>
+            <svg class="contact-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
             <div>
               <span class="contact-label">Instagram</span>
               <a href="https://instagram.com/afera_confeitaria" target="_blank" rel="noopener">@afera_confeitaria</a>
