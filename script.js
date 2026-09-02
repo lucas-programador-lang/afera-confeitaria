@@ -9,24 +9,11 @@ function waLink(itemName, price){
   return `https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 
-// ---------- ícones ----------
-
-const ICONS = {
-  cake: `<path d="M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z"/><path d="M3 10a4 4 0 0 1 4-4c1.2 0 1.8.7 2.5.7S10.8 6 12 6s1.8.7 2.5.7S15.8 6 17 6a4 4 0 0 1 4 4"/><path d="M12 6V3"/>`,
-  salty: `<path d="M12 3c3.2 4 6 7.3 6 11a6 6 0 0 1-12 0c0-3.7 2.8-7 6-11z"/>`,
-  sweet: `<circle cx="12" cy="12" r="4.2"/><path d="M6 8l3 2M18 8l-3 2M6 16l3-2M18 16l-3-2"/>`,
-  cupcake: `<path d="M7 12h10l-1.1 7.2a2 2 0 0 1-2 1.8h-3.8a2 2 0 0 1-2-1.8L7 12z"/><path d="M5.5 12a6.5 4 0 0 1 13 0"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1"/>`,
-  drink: `<path d="M6.5 7h11l-1.15 11.3a2 2 0 0 1-2 1.7H9.65a2 2 0 0 1-2-1.7L6.5 7z"/><path d="M5 7h14"/><path d="M9 7l1-3h4l1 3"/>`,
-  topper: `<rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.4"/><path d="M21 16l-5-4.5-4 3.5-2-1.7-5 4.2"/>`,
-  info: `<circle cx="12" cy="12" r="9.2"/><path d="M12 11v5.5"/><circle cx="12" cy="8" r="0.9" fill="currentColor" stroke="none"/>`,
-  flame: `<path d="M12 3c1.5 2.4-1 3.6-1 6a3 3 0 0 0 6 0c1.4 1.6 2 3.2 2 5a7 7 0 1 1-14 0c0-3.8 2.6-6.4 4-8 1 1.3.6 2.4 1 3.4.5-2 .8-3.6 2-6.4z"/>`,
-  pie: `<circle cx="12" cy="12" r="9.2"/><path d="M12 12L12 3.2M12 12l7.8-4.5"/><path d="M12 12l-1 9.1M12 12l6.2 6.6"/>`,
-  snow: `<path d="M12 2v20M4.8 6.8l14.4 10.4M19.2 6.8L4.8 17.2"/><path d="M12 6l-2 1.6M12 6l2 1.6M12 18l-2-1.6M12 18l2-1.6M6 9l.6 2.3-2.2.9M6 15l.6-2.3-2.2-.9M18 9l-.6 2.3 2.2.9M18 15l-.6-2.3 2.2-.9"/>`,
-  arrow: `<path d="M5 12h14M13 6l6 6-6 6"/>`
-};
-
-function icon(name, size = 16){
-  return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[name] || ""}</svg>`;
+function priceParts(price){
+  // "R$ 145,00" -> { whole: "145", cents: "00" }
+  const match = price.match(/R\$\s*([\d.]+),(\d{2})/);
+  if (!match) return { whole: price, cents: "" };
+  return { whole: match[1], cents: match[2] };
 }
 
 // ---------- dados ----------
@@ -34,169 +21,132 @@ function icon(name, size = 16){
 const kits = [
   {
     name: "Bolo + Salgados",
-    serves: "até 15 pessoas",
-    price: "R$ 95,00",
-    items: [
-      { icon: "cake", text: "Bolo de 10 fatias" },
-      { icon: "salty", text: "50 salgados variados" }
-    ]
+    serves: "Até 15 pessoas",
+    desc: "Bolo de 10 fatias com 50 salgados variados. Ideal para festas menores.",
+    price: "R$ 95,00"
   },
   {
     name: "Kit Mini Bolo",
-    serves: "até 20 pessoas",
-    price: "R$ 120,00",
-    items: [
-      { icon: "cake", text: "Bolo de 10 fatias" },
-      { icon: "salty", text: "100 salgados variados" }
-    ]
+    serves: "Até 20 pessoas",
+    desc: "Bolo de 10 fatias com 100 salgados variados.",
+    price: "R$ 120,00"
   },
   {
     name: "Mini Kit Completo",
-    serves: "até 20 pessoas",
+    serves: "Até 20 pessoas",
+    desc: "Bolo de 12 fatias com topo impresso incluso, 50 salgados, 30 doces, 4 cupcakes e refrigerante de 1 litro.",
     price: "R$ 145,00",
     featured: true,
-    badge: "Mais pedido",
-    items: [
-      { icon: "cake", text: "Bolo de 12 fatias" },
-      { icon: "topper", text: "Topo impresso incluso" },
-      { icon: "salty", text: "50 salgados variados" },
-      { icon: "sweet", text: "30 doces variados" },
-      { icon: "cupcake", text: "4 cupcakes" },
-      { icon: "drink", text: "Refrigerante de 1 litro" }
-    ]
+    tag: "o mais pedido da casa"
   },
   {
     name: "Kit 1",
-    serves: "sob consulta",
-    price: "R$ 163,00",
-    items: [
-      { icon: "info", text: "Consulte a composição completa pelo WhatsApp" }
-    ]
+    serves: "Sob consulta",
+    desc: "Kit festa tamanho intermediário — consulte a composição completa pelo WhatsApp.",
+    price: "R$ 163,00"
   },
   {
     name: "Kit 2",
-    serves: "até 35 pessoas",
-    price: "R$ 195,00",
-    items: [
-      { icon: "cake", text: "Bolo de 20 fatias" },
-      { icon: "salty", text: "200 salgados variados" }
-    ]
+    serves: "Até 35 pessoas",
+    desc: "Bolo de 20 fatias com 200 salgados variados.",
+    price: "R$ 195,00"
   },
   {
     name: "Kit 1 Completo",
-    serves: "até 35 pessoas",
-    price: "R$ 197,00",
-    items: [
-      { icon: "cake", text: "Bolo de 20 fatias" },
-      { icon: "topper", text: "Topo impresso incluso" },
-      { icon: "salty", text: "100 salgados variados" },
-      { icon: "sweet", text: "50 doces variados" },
-      { icon: "drink", text: "Refrigerante de 2 litros" }
-    ]
+    serves: "Até 35 pessoas",
+    desc: "Bolo de 20 fatias com topo impresso incluso, 100 salgados, 50 doces e refrigerante de 2 litros.",
+    price: "R$ 197,00"
   },
   {
     name: "Kit 3",
-    serves: "até 50 pessoas",
+    serves: "Até 50 pessoas",
+    desc: "Bolo de 30 fatias com topo impresso incluso e 200 salgados variados.",
     price: "R$ 225,00",
     featured: true,
-    badge: "Festa grande",
-    items: [
-      { icon: "cake", text: "Bolo de 30 fatias" },
-      { icon: "topper", text: "Topo impresso incluso" },
-      { icon: "salty", text: "200 salgados variados" }
-    ]
+    tag: "para festas grandes"
   }
 ];
 
 const bolosAvulsos = [
-  { name: "Bolo 10 fatias", serves: "até 12 pessoas", price: "R$ 75,00" },
-  { name: "Bolo 20 fatias", serves: "até 22 pessoas", price: "R$ 115,00" },
-  { name: "Bolo 30 fatias", serves: "até 33 pessoas", price: "R$ 145,00" },
-  { name: "Bolo 40 fatias", serves: "até 44 pessoas", price: "R$ 180,00" },
-  { name: "Bolo 50 fatias", serves: "até 55 pessoas", price: "R$ 260,00" }
+  { name: "Bolo 10 fatias", note: "Até 12 pessoas", price: "R$ 75,00" },
+  { name: "Bolo 20 fatias", note: "Até 22 pessoas", price: "R$ 115,00" },
+  { name: "Bolo 30 fatias", note: "Até 33 pessoas", price: "R$ 145,00" },
+  { name: "Bolo 40 fatias", note: "Até 44 pessoas", price: "R$ 180,00" },
+  { name: "Bolo 50 fatias", note: "Até 55 pessoas", price: "R$ 260,00" }
 ];
 
 const extraCategories = [
   {
     title: "Salgados e doces avulsos",
     items: [
-      { icon: "salty", name: "100 salgados variados", note: "Avulso", price: "R$ 40,00" },
-      { icon: "sweet", name: "100 doces variados", note: "Avulso", price: "R$ 70,00" }
+      { name: "100 salgados variados", note: "Avulso", price: "R$ 40,00" },
+      { name: "100 doces variados", note: "Avulso", price: "R$ 70,00" }
     ]
   },
   {
     title: "Porções de salgados fritos",
     items: [
-      { icon: "flame", name: "Porção de salgados fritos", note: "25 unidades", price: "R$ 10,00" },
-      { icon: "flame", name: "Porção de salgados fritos", note: "37 unidades", price: "R$ 15,00" },
-      { icon: "flame", name: "Porção de salgados fritos", note: "50 unidades", price: "R$ 20,00" }
+      { name: "Porção de salgados fritos", note: "25 unidades", price: "R$ 10,00" },
+      { name: "Porção de salgados fritos", note: "37 unidades", price: "R$ 15,00" },
+      { name: "Porção de salgados fritos", note: "50 unidades", price: "R$ 20,00" }
     ]
   }
 ];
 
 const congelados = [
-  { icon: "pie", name: "Empadão de frango", note: "Unidade", price: "R$ 70,00" },
-  { icon: "snow", name: "Salgados congelados", note: "Coxinha, bola de queijo, misto e carne — 50 unidades", price: "R$ 18,00" }
+  { name: "Empadão de frango", note: "Unidade", price: "R$ 70,00" },
+  { name: "Salgados congelados", note: "Coxinha, bola de queijo, misto e carne — 50 unidades", price: "R$ 18,00" }
 ];
 
 // ---------- render ----------
 
 function renderKits(){
-  const grid = document.getElementById("kits-grid");
-  grid.innerHTML = kits.map(k => `
-    <article class="kit-card ${k.featured ? "is-featured" : ""}">
-      ${k.badge ? `<span class="kit-badge">${k.badge}</span>` : ""}
-      <div class="kit-head">
-        <h3 class="kit-name">${k.name}</h3>
-        ${k.serves ? `<span class="kit-serves">${k.serves}</span>` : ""}
+  const panel = document.getElementById("kits-grid");
+  panel.innerHTML = kits.map(k => {
+    const p = priceParts(k.price);
+    return `
+    <article class="kit-row ${k.featured ? "is-featured" : ""}">
+      <div class="kit-row-main">
+        <div class="kit-row-heading">
+          <h3>${k.name}</h3>
+          ${k.tag ? `<span class="kit-row-tag">— ${k.tag}</span>` : ""}
+        </div>
+        <p class="kit-row-serves">${k.serves}</p>
+        <p class="kit-row-desc">${k.desc}</p>
       </div>
-      <ul class="kit-items">
-        ${k.items.map(it => `
-          <li class="kit-item">
-            <span class="kit-item-icon">${icon(it.icon, 15)}</span>
-            <span>${it.text}</span>
-          </li>
-        `).join("")}
-      </ul>
-      <div class="kit-footer">
-        <div class="kit-price"><small>Preço</small>${k.price}</div>
-        <a class="kit-order-btn" href="${waLink(k.name, k.price)}" target="_blank" rel="noopener" aria-label="Pedir ${k.name} no WhatsApp">
-          <span>Pedir</span>
-          ${icon("arrow", 15)}
+      <div class="kit-row-side">
+        <p class="kit-row-price"><span class="cur">R$</span>${p.whole}<span class="cents">,${p.cents}</span></p>
+        <a class="kit-row-cta" href="${waLink(k.name, k.price)}" target="_blank" rel="noopener" aria-label="Pedir ${k.name} no WhatsApp">
+          Pedir no WhatsApp
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
     </article>
-  `).join("");
+  `;
+  }).join("");
 }
 
 function renderBolos(){
-  const table = document.getElementById("bolos-table");
-  table.innerHTML = bolosAvulsos.map(b => `
-    <a class="bolo-row" href="${waLink(b.name, b.price)}" target="_blank" rel="noopener">
-      <div class="bolo-name-wrap">
-        <span class="bolo-icon">${icon("cake", 16)}</span>
-        <span class="bolo-text">
-          <span class="bolo-name">${b.name}</span>
-          <span class="bolo-serves">${b.serves}</span>
-        </span>
+  const panel = document.getElementById("bolos-table");
+  panel.innerHTML = bolosAvulsos.map(b => `
+    <a class="menu-row" href="${waLink(b.name, b.price)}" target="_blank" rel="noopener">
+      <div class="menu-row-left">
+        <span class="menu-row-name">${b.name}</span>
+        <span class="menu-row-note">${b.note}</span>
       </div>
-      <div class="bolo-right">
-        <span class="bolo-price">${b.price}</span>
-        <span class="bolo-arrow">${icon("arrow", 14)}</span>
-      </div>
+      <span class="menu-row-price">${b.price}</span>
     </a>
   `).join("");
 }
 
-function extraCard(e){
+function extraRow(e){
   return `
-    <a class="extra-card" href="${waLink(e.name + (e.note ? " — " + e.note : ""), e.price)}" target="_blank" rel="noopener">
-      <span class="extra-icon">${icon(e.icon, 17)}</span>
-      <div class="extra-body">
-        <p class="extra-name">${e.name}</p>
-        <p class="extra-note">${e.note}</p>
+    <a class="menu-row" href="${waLink(e.name + (e.note ? " — " + e.note : ""), e.price)}" target="_blank" rel="noopener">
+      <div class="menu-row-left">
+        <span class="menu-row-name">${e.name}</span>
+        <span class="menu-row-note">${e.note}</span>
       </div>
-      <span class="extra-price">${e.price}</span>
+      <span class="menu-row-price">${e.price}</span>
     </a>
   `;
 }
@@ -206,16 +156,16 @@ function renderExtras(){
   wrap.innerHTML = extraCategories.map(cat => `
     <div class="extra-category">
       <h3 class="extra-category-title">${cat.title}</h3>
-      <div class="menu-grid menu-grid--compact">
-        ${cat.items.map(extraCard).join("")}
+      <div class="menu-panel">
+        ${cat.items.map(extraRow).join("")}
       </div>
     </div>
   `).join("");
 }
 
 function renderFrozen(){
-  const grid = document.getElementById("frozen-grid");
-  grid.innerHTML = congelados.map(extraCard).join("");
+  const panel = document.getElementById("frozen-grid");
+  panel.innerHTML = congelados.map(extraRow).join("");
 }
 
 renderKits();
@@ -258,7 +208,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   let w, h, particles;
-  const COUNT = 46;
+  const COUNT = 40;
 
   function resize(){
     w = canvas.width = canvas.offsetWidth * devicePixelRatio;
