@@ -9,6 +9,15 @@ function waLink(itemName, price){
   return `https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 
+const PLACEHOLDER_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z"/><path d="M3 10a4 4 0 0 1 4-4c1.2 0 1.8.7 2.5.7S10.8 6 12 6s1.8.7 2.5.7S15.8 6 17 6a4 4 0 0 1 4 4"/><path d="M12 6V3"/></svg>`;
+
+function thumb(item, sizeClass){
+  const inner = item.photo
+    ? `<img src="${item.photo}" alt="${item.name}" loading="lazy">`
+    : PLACEHOLDER_ICON;
+  return `<div class="${sizeClass}">${inner}</div>`;
+}
+
 function priceParts(price){
   // "R$ 145,00" -> { whole: "145", cents: "00" }
   const match = price.match(/R\$\s*([\d.]+),(\d{2})/);
@@ -17,6 +26,11 @@ function priceParts(price){
 }
 
 // ---------- dados ----------
+//
+// Pra colocar uma foto em qualquer item, adicione a propriedade "photo"
+// com o caminho do arquivo, ex:
+//   { name: "Kit 3", ..., photo: "img/kit-3.jpg" }
+// Sem essa propriedade, o item mostra o ícone de bolo como espaço reservado.
 
 const kits = [
   {
@@ -107,6 +121,7 @@ function renderKits(){
     return `
     <article class="kit-row ${k.featured ? "is-featured" : ""}">
       <div class="kit-row-main">
+        ${thumb(k, "kit-row-thumb")}
         <div class="kit-row-heading">
           <h3>${k.name}</h3>
           ${k.tag ? `<span class="kit-row-tag">— ${k.tag}</span>` : ""}
@@ -130,9 +145,12 @@ function renderBolos(){
   const panel = document.getElementById("bolos-table");
   panel.innerHTML = bolosAvulsos.map(b => `
     <a class="menu-row" href="${waLink(b.name, b.price)}" target="_blank" rel="noopener">
-      <div class="menu-row-left">
-        <span class="menu-row-name">${b.name}</span>
-        <span class="menu-row-note">${b.note}</span>
+      <div class="menu-row-left-wrap">
+        ${thumb(b, "menu-row-thumb")}
+        <div class="menu-row-left">
+          <span class="menu-row-name">${b.name}</span>
+          <span class="menu-row-note">${b.note}</span>
+        </div>
       </div>
       <span class="menu-row-price">${b.price}</span>
     </a>
@@ -142,9 +160,12 @@ function renderBolos(){
 function extraRow(e){
   return `
     <a class="menu-row" href="${waLink(e.name + (e.note ? " — " + e.note : ""), e.price)}" target="_blank" rel="noopener">
-      <div class="menu-row-left">
-        <span class="menu-row-name">${e.name}</span>
-        <span class="menu-row-note">${e.note}</span>
+      <div class="menu-row-left-wrap">
+        ${thumb(e, "menu-row-thumb")}
+        <div class="menu-row-left">
+          <span class="menu-row-name">${e.name}</span>
+          <span class="menu-row-note">${e.note}</span>
+        </div>
       </div>
       <span class="menu-row-price">${e.price}</span>
     </a>
