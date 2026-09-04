@@ -11,11 +11,17 @@ function waLink(itemName, price){
 
 const PLACEHOLDER_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z"/><path d="M3 10a4 4 0 0 1 4-4c1.2 0 1.8.7 2.5.7S10.8 6 12 6s1.8.7 2.5.7S15.8 6 17 6a4 4 0 0 1 4 4"/><path d="M12 6V3"/></svg>`;
 
-function thumb(item, sizeClass){
+function cardPhoto(item, { badge, serves } = {}){
   const inner = item.photo
     ? `<img src="${item.photo}" alt="${item.name}" loading="lazy">`
     : PLACEHOLDER_ICON;
-  return `<div class="${sizeClass}">${inner}</div>`;
+  return `
+    <div class="item-card-photo">
+      ${badge ? `<span class="item-card-badge">${badge}</span>` : ""}
+      ${inner}
+      ${serves ? `<span class="item-card-serves">${serves}</span>` : ""}
+    </div>
+  `;
 }
 
 function priceParts(price){
@@ -132,25 +138,21 @@ const congelados = [
 
 // ---------- render ----------
 
-function kitRow(k){
+function kitCard(k){
   const p = priceParts(k.price);
   return `
-    <article class="kit-row ${k.featured ? "is-featured" : ""}">
-      <div class="kit-row-main">
-        ${thumb(k, "kit-row-thumb")}
-        <div class="kit-row-heading">
-          <h3>${k.name}</h3>
-          <span class="kit-row-serves-badge">${k.serves}</span>
-          ${k.tag ? `<span class="kit-row-tag">— ${k.tag}</span>` : ""}
+    <article class="item-card ${k.featured ? "is-featured" : ""}">
+      ${cardPhoto(k, { badge: k.tag, serves: k.serves })}
+      <div class="item-card-body">
+        <h3 class="item-card-name">${k.name}</h3>
+        <p class="item-card-desc">${k.desc}</p>
+        <div class="item-card-footer">
+          <p class="item-card-price"><span class="cur">R$</span>${p.whole}<span class="cents">,${p.cents}</span></p>
+          <a class="item-card-btn" href="${waLink(k.name, k.price)}" target="_blank" rel="noopener" aria-label="Pedir ${k.name} no WhatsApp">
+            <span>Pedir</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
-        <p class="kit-row-desc">${k.desc}</p>
-      </div>
-      <div class="kit-row-side">
-        <p class="kit-row-price"><span class="cur">R$</span>${p.whole}<span class="cents">,${p.cents}</span></p>
-        <a class="kit-row-cta" href="${waLink(k.name, k.price)}" target="_blank" rel="noopener" aria-label="Pedir ${k.name} no WhatsApp">
-          Pedir no WhatsApp
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
       </div>
     </article>
   `;
@@ -164,42 +166,38 @@ function renderKits(){
         <h3 class="menu-category-title">${cat.title}</h3>
         <span class="menu-category-note">${cat.note}</span>
       </div>
-      <div class="menu-panel">
-        ${cat.items.map(kitRow).join("")}
+      <div class="card-grid">
+        ${cat.items.map(kitCard).join("")}
       </div>
     </div>
   `).join("");
 }
 
-function renderBolos(){
-  const panel = document.getElementById("bolos-table");
-  panel.innerHTML = bolosAvulsos.map(b => `
-    <a class="menu-row" href="${waLink(b.name, b.price)}" target="_blank" rel="noopener">
-      <div class="menu-row-left-wrap">
-        ${thumb(b, "menu-row-thumb")}
-        <div class="menu-row-left">
-          <span class="menu-row-name">${b.name}</span>
-          <span class="menu-row-note">${b.note} · ${b.perSlice}</span>
+function simpleCard(item, note){
+  const p = priceParts(item.price);
+  return `
+    <article class="item-card">
+      ${cardPhoto(item)}
+      <div class="item-card-body">
+        <h3 class="item-card-name">${item.name}</h3>
+        <p class="item-card-note">${note}</p>
+        <div class="item-card-footer">
+          <p class="item-card-price"><span class="cur">R$</span>${p.whole}<span class="cents">,${p.cents}</span></p>
+          <a class="item-card-btn item-card-btn--icon" href="${waLink(item.name + (item.note ? " — " + item.note : ""), item.price)}" target="_blank" rel="noopener" aria-label="Pedir ${item.name} no WhatsApp">
+            <span>Pedir</span>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
       </div>
-      <span class="menu-row-price">${b.price}</span>
-    </a>
-  `).join("");
+    </article>
+  `;
 }
 
-function extraRow(e){
-  return `
-    <a class="menu-row" href="${waLink(e.name + (e.note ? " — " + e.note : ""), e.price)}" target="_blank" rel="noopener">
-      <div class="menu-row-left-wrap">
-        ${thumb(e, "menu-row-thumb")}
-        <div class="menu-row-left">
-          <span class="menu-row-name">${e.name}</span>
-          <span class="menu-row-note">${e.note}</span>
-        </div>
-      </div>
-      <span class="menu-row-price">${e.price}</span>
-    </a>
-  `;
+function renderBolos(){
+  const wrap = document.getElementById("bolos-table");
+  wrap.innerHTML = `<div class="card-grid">
+    ${bolosAvulsos.map(b => simpleCard(b, `${b.note} · ${b.perSlice}`)).join("")}
+  </div>`;
 }
 
 function renderExtras(){
@@ -209,16 +207,18 @@ function renderExtras(){
       <div class="menu-category-head">
         <h3 class="menu-category-title">${cat.title}</h3>
       </div>
-      <div class="menu-panel">
-        ${cat.items.map(extraRow).join("")}
+      <div class="card-grid">
+        ${cat.items.map(item => simpleCard(item, item.note)).join("")}
       </div>
     </div>
   `).join("");
 }
 
 function renderFrozen(){
-  const panel = document.getElementById("frozen-grid");
-  panel.innerHTML = congelados.map(extraRow).join("");
+  const wrap = document.getElementById("frozen-grid");
+  wrap.innerHTML = `<div class="card-grid">
+    ${congelados.map(item => simpleCard(item, item.note)).join("")}
+  </div>`;
 }
 
 renderKits();
