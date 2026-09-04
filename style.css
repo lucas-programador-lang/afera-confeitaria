@@ -229,12 +229,21 @@ button{ font-family: inherit; }
   overflow: hidden;
   box-shadow: 0 30px 60px -42px rgba(0,0,0,0.7), inset 0 1px 0 rgba(150,170,255,0.06);
 }
-.extra-category{ margin-bottom: 30px; }
-.extra-category:last-child{ margin-bottom: 0; }
-.extra-category-title{
-  font-family: var(--serif); font-weight: 600; font-size: 1.06rem;
-  color: var(--text-hi); margin: 0 0 14px;
+.menu-category{ margin-bottom: 36px; }
+.menu-category:last-child{ margin-bottom: 0; }
+.menu-category-head{
+  display: flex; align-items: baseline; gap: 12px;
+  margin: 0 0 16px; padding-left: 2px;
 }
+.menu-category-title{
+  font-family: var(--serif); font-weight: 600; font-size: 1.14rem;
+  color: var(--text-hi); margin: 0;
+}
+.menu-category-note{
+  font-size: 0.8rem; color: var(--text-low);
+  padding-bottom: 2px;
+}
+.menu-category-note::before{ content: "· "; }
 
 /* linha simples: bolos avulsos, salgados/doces, congelados */
 .menu-row{
@@ -292,10 +301,17 @@ a.menu-row:hover{ background: rgba(61, 92, 240, 0.055); box-shadow: inset 3px 0 
 .kit-row-thumb img{ width: 100%; height: 100%; object-fit: cover; }
 .kit-row-thumb svg{ width: 34px; height: 34px; opacity: 0.35; stroke: var(--blue-300); }
 .kit-row-main{ max-width: 620px; }
-.kit-row-heading{ display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+.kit-row-heading{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
 .kit-row-heading h3{ font-family: var(--serif); font-weight: 600; font-size: 1.36rem; color: var(--text-hi); margin: 0; }
+.kit-row-serves-badge{
+  font-size: 0.72rem; font-weight: 600; color: var(--blue-300);
+  background: rgba(114, 145, 255, 0.1);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 11px;
+  white-space: nowrap;
+}
 .kit-row-tag{ font-family: var(--serif); font-style: italic; font-size: 0.92rem; color: var(--gold); }
-.kit-row-serves{ font-size: 0.86rem; color: var(--text-low); margin: 0 0 12px; }
 .kit-row-desc{ font-size: 0.98rem; color: var(--text-mid); line-height: 1.65; margin: 0; max-width: 480px; }
 
 .kit-row-side{ flex-shrink: 0; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
@@ -403,6 +419,8 @@ a.menu-row:hover{ background: rgba(61, 92, 240, 0.055); box-shadow: inset 3px 0 
 @media (max-width: 480px){
   .menu-row-thumb{ width: 46px; height: 46px; }
   .kit-row-thumb{ width: 72px; height: 72px; }
+  .menu-category-head{ flex-direction: column; align-items: flex-start; gap: 2px; }
+  .menu-category-note::before{ content: ""; }
 }
 
 @media (max-width: 640px){
