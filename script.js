@@ -32,61 +32,79 @@ function priceParts(price){
 //   { name: "Kit 3", ..., photo: "img/kit-3.jpg" }
 // Sem essa propriedade, o item mostra o ícone de bolo como espaço reservado.
 
-const kits = [
+const kitCategories = [
   {
-    name: "Bolo + Salgados",
-    serves: "Até 15 pessoas",
-    desc: "Bolo de 10 fatias com 50 salgados variados. Ideal para festas menores.",
-    price: "R$ 95,00"
+    title: "Kits pequenos",
+    note: "até 20 pessoas",
+    items: [
+      {
+        name: "Bolo + Salgados",
+        serves: "Até 15 pessoas",
+        desc: "Bolo de 10 fatias com 50 salgados variados. Ideal para festas menores.",
+        price: "R$ 95,00"
+      },
+      {
+        name: "Kit Mini Bolo",
+        serves: "Até 20 pessoas",
+        desc: "Bolo de 10 fatias com 100 salgados variados.",
+        price: "R$ 120,00"
+      },
+      {
+        name: "Mini Kit Completo",
+        serves: "Até 20 pessoas",
+        desc: "Bolo de 12 fatias com topo impresso incluso, 50 salgados, 30 doces, 4 cupcakes e refrigerante de 1 litro.",
+        price: "R$ 145,00",
+        featured: true,
+        tag: "o mais pedido da casa"
+      }
+    ]
   },
   {
-    name: "Kit Mini Bolo",
-    serves: "Até 20 pessoas",
-    desc: "Bolo de 10 fatias com 100 salgados variados.",
-    price: "R$ 120,00"
+    title: "Kits médios",
+    note: "até 35 pessoas",
+    items: [
+      {
+        name: "Kit 1",
+        serves: "Sob consulta",
+        desc: "Kit festa tamanho intermediário — consulte a composição completa pelo WhatsApp.",
+        price: "R$ 163,00"
+      },
+      {
+        name: "Kit 2",
+        serves: "Até 35 pessoas",
+        desc: "Bolo de 20 fatias com 200 salgados variados.",
+        price: "R$ 195,00"
+      },
+      {
+        name: "Kit 1 Completo",
+        serves: "Até 35 pessoas",
+        desc: "Bolo de 20 fatias com topo impresso incluso, 100 salgados, 50 doces e refrigerante de 2 litros.",
+        price: "R$ 197,00"
+      }
+    ]
   },
   {
-    name: "Mini Kit Completo",
-    serves: "Até 20 pessoas",
-    desc: "Bolo de 12 fatias com topo impresso incluso, 50 salgados, 30 doces, 4 cupcakes e refrigerante de 1 litro.",
-    price: "R$ 145,00",
-    featured: true,
-    tag: "o mais pedido da casa"
-  },
-  {
-    name: "Kit 1",
-    serves: "Sob consulta",
-    desc: "Kit festa tamanho intermediário — consulte a composição completa pelo WhatsApp.",
-    price: "R$ 163,00"
-  },
-  {
-    name: "Kit 2",
-    serves: "Até 35 pessoas",
-    desc: "Bolo de 20 fatias com 200 salgados variados.",
-    price: "R$ 195,00"
-  },
-  {
-    name: "Kit 1 Completo",
-    serves: "Até 35 pessoas",
-    desc: "Bolo de 20 fatias com topo impresso incluso, 100 salgados, 50 doces e refrigerante de 2 litros.",
-    price: "R$ 197,00"
-  },
-  {
-    name: "Kit 3",
-    serves: "Até 50 pessoas",
-    desc: "Bolo de 30 fatias com topo impresso incluso e 200 salgados variados.",
-    price: "R$ 225,00",
-    featured: true,
-    tag: "para festas grandes"
+    title: "Kits grandes",
+    note: "até 50 pessoas",
+    items: [
+      {
+        name: "Kit 3",
+        serves: "Até 50 pessoas",
+        desc: "Bolo de 30 fatias com topo impresso incluso e 200 salgados variados.",
+        price: "R$ 225,00",
+        featured: true,
+        tag: "para festas grandes"
+      }
+    ]
   }
 ];
 
 const bolosAvulsos = [
-  { name: "Bolo 10 fatias", note: "Até 12 pessoas", price: "R$ 75,00" },
-  { name: "Bolo 20 fatias", note: "Até 22 pessoas", price: "R$ 115,00" },
-  { name: "Bolo 30 fatias", note: "Até 33 pessoas", price: "R$ 145,00" },
-  { name: "Bolo 40 fatias", note: "Até 44 pessoas", price: "R$ 180,00" },
-  { name: "Bolo 50 fatias", note: "Até 55 pessoas", price: "R$ 260,00" }
+  { name: "Bolo 10 fatias", note: "Até 12 pessoas", perSlice: "R$ 7,50/fatia", price: "R$ 75,00" },
+  { name: "Bolo 20 fatias", note: "Até 22 pessoas", perSlice: "R$ 5,75/fatia", price: "R$ 115,00" },
+  { name: "Bolo 30 fatias", note: "Até 33 pessoas", perSlice: "R$ 4,83/fatia", price: "R$ 145,00" },
+  { name: "Bolo 40 fatias", note: "Até 44 pessoas", perSlice: "R$ 4,50/fatia", price: "R$ 180,00" },
+  { name: "Bolo 50 fatias", note: "Até 55 pessoas", perSlice: "R$ 5,20/fatia", price: "R$ 260,00" }
 ];
 
 const extraCategories = [
@@ -114,19 +132,17 @@ const congelados = [
 
 // ---------- render ----------
 
-function renderKits(){
-  const panel = document.getElementById("kits-grid");
-  panel.innerHTML = kits.map(k => {
-    const p = priceParts(k.price);
-    return `
+function kitRow(k){
+  const p = priceParts(k.price);
+  return `
     <article class="kit-row ${k.featured ? "is-featured" : ""}">
       <div class="kit-row-main">
         ${thumb(k, "kit-row-thumb")}
         <div class="kit-row-heading">
           <h3>${k.name}</h3>
+          <span class="kit-row-serves-badge">${k.serves}</span>
           ${k.tag ? `<span class="kit-row-tag">— ${k.tag}</span>` : ""}
         </div>
-        <p class="kit-row-serves">${k.serves}</p>
         <p class="kit-row-desc">${k.desc}</p>
       </div>
       <div class="kit-row-side">
@@ -138,7 +154,21 @@ function renderKits(){
       </div>
     </article>
   `;
-  }).join("");
+}
+
+function renderKits(){
+  const wrap = document.getElementById("kits-grid");
+  wrap.innerHTML = kitCategories.map(cat => `
+    <div class="menu-category">
+      <div class="menu-category-head">
+        <h3 class="menu-category-title">${cat.title}</h3>
+        <span class="menu-category-note">${cat.note}</span>
+      </div>
+      <div class="menu-panel">
+        ${cat.items.map(kitRow).join("")}
+      </div>
+    </div>
+  `).join("");
 }
 
 function renderBolos(){
@@ -149,7 +179,7 @@ function renderBolos(){
         ${thumb(b, "menu-row-thumb")}
         <div class="menu-row-left">
           <span class="menu-row-name">${b.name}</span>
-          <span class="menu-row-note">${b.note}</span>
+          <span class="menu-row-note">${b.note} · ${b.perSlice}</span>
         </div>
       </div>
       <span class="menu-row-price">${b.price}</span>
@@ -175,8 +205,10 @@ function extraRow(e){
 function renderExtras(){
   const wrap = document.getElementById("extras-wrap");
   wrap.innerHTML = extraCategories.map(cat => `
-    <div class="extra-category">
-      <h3 class="extra-category-title">${cat.title}</h3>
+    <div class="menu-category">
+      <div class="menu-category-head">
+        <h3 class="menu-category-title">${cat.title}</h3>
+      </div>
       <div class="menu-panel">
         ${cat.items.map(extraRow).join("")}
       </div>
